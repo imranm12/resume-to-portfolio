@@ -1,0 +1,15 @@
+# Core PDF parsing
+pdfplumber==0.11.4
+pymupdf==1.25.3           # PyMuPDF — fallback PDF extractor
+
+# LLM — using Ollama locally, no API key needed
+# anthropic==0.34.0       # uncomment this if you switch to Claude API later
+httpx==0.28.1             # used for Ollama HTTP calls + GitHub enrichment
+
+# API server
+fastapi==0.115.8
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20  # required for FastAPI file uploads
+
+# Env vars
+python-dotenv==1.0.1
