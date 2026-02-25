@@ -1,5 +1,5 @@
 """
-resume_parser/extractor.py
+backend/extractor.py
 --------------------------
 Uses Ollama (local) to extract structured data from raw resume text.
 Returns a clean, typed ResumeData object ready for portfolio generation.
@@ -179,7 +179,7 @@ class ResumeExtractor:
                 "stream": False,
                 "format": "json",   # forces Ollama to output valid JSON
             },
-            timeout=300,            # local models can be slow, give them time
+            timeout=500,            # local models can be slow, give them time
         )
         response.raise_for_status()
         return response.json()["response"]

@@ -1,5 +1,5 @@
 """
-resume_parser/parser.py
+backend/parser.py
 -----------------------
 PDF text extraction using pdfplumber (primary) with PyMuPDF as fallback.
 Handles messy layouts, multi-column resumes, and scanned PDFs gracefully.

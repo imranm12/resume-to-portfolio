@@ -33,13 +33,13 @@ cp .env.example .env
 # Add ANTHROPIC_API_KEY and optionally GITHUB_TOKEN
 
 # Run the API server
-uvicorn resume_parser.api:app --reload --port 8000
+uvicorn backend.api:app --reload --port 8000
 ```
 
 ## Usage in code
 
 ```python
-from resume_parser import ResumePipeline
+from backend import ResumePipeline
 
 pipeline = ResumePipeline()
 data = pipeline.run("resume.pdf", github_username="yourusername")

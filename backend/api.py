@@ -20,7 +20,7 @@ from pathlib import Path
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from resume_parser import ResumePipeline
+from backend import ResumePipeline
 
 app = FastAPI(title="Resume Parser API", version="1.0.0")
 

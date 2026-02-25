@@ -1,5 +1,5 @@
 """
-resume_parser/pipeline.py
+backend/pipeline.py
 --------------------------
 Top-level pipeline: PDF → raw text → structured data → GitHub enrichment.
 This is the single entry point your Next.js API route will call.

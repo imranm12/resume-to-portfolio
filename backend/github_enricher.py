@@ -1,5 +1,5 @@
 """
-resume_parser/github_enricher.py
+backend/github_enricher.py
 ---------------------------------
 Enriches extracted resume data with live GitHub data.
 Pulls pinned repos, top languages, and contribution stats via GitHub REST API.
