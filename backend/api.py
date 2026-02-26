@@ -28,14 +28,14 @@ app = FastAPI(title="Resume Parser API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "http://localhost:3000",
         os.getenv("FRONTEND_URL", "http://localhost:3000"),
     ],
-    allow_methods=["POST"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
 pipeline = ResumePipeline(
-    anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
     github_token=os.getenv("GITHUB_TOKEN"),
 )
 
