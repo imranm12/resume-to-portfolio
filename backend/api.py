@@ -23,7 +23,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 load_dotenv()
 
-from backend import ResumePipeline
+from pipeline import ResumePipeline
 
 app = FastAPI(title="Resume Parser API", version="1.0.0")
 

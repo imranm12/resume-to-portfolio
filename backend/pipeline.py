@@ -10,7 +10,7 @@ from pathlib import Path
 
 from .parser import extract_text_from_pdf
 from .extractor import ResumeExtractor, ResumeData
-from .github_enricher import GitHubEnricher, GitHubProfile
+from github_enricher import GitHubEnricher, GitHubProfile
 
 
 @dataclass
