@@ -24,7 +24,7 @@ export default function Navbar() {
 
         {/* Desktop links */}
         <div className="hide-mobile flex items-center gap-6">
-          <a href="#how-it-works" style={{ color: "var(--muted)", fontSize: "0.85rem", textDecoration: "none" }}>
+          <a href="how-it-works" style={{ color: "var(--muted)", fontSize: "0.85rem", textDecoration: "none" }}>
             How it works
           </a>
         </div>
@@ -40,7 +40,7 @@ export default function Navbar() {
         <div className="fixed top-[57px] left-0 w-full z-40 p-4 flex flex-col gap-3"
           style={{ background: "var(--background)", borderBottom: "1px solid var(--border)" }}
         >
-          <a href="#how-it-works" style={{ color: "var(--muted)", fontSize: "0.85rem", textDecoration: "none" }}>
+          <a href="how-it-works" style={{ color: "var(--muted)", fontSize: "0.85rem", textDecoration: "none" }}>
             How it works
           </a>
         </div>
