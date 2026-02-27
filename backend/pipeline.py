@@ -42,13 +42,8 @@ class ResumePipeline:
     def __init__(
         self,
         github_token: str | None = None,
-        ollama_model: str | None = None,
-        ollama_base_url: str | None = None,
     ):
-        self.extractor = ResumeExtractor(
-            model=ollama_model,
-            base_url=ollama_base_url,
-        )
+        self.extractor = ResumeExtractor()
         self.enricher = GitHubEnricher(token=github_token)
 
     # def __init__(

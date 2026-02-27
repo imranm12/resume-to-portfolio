@@ -2,9 +2,9 @@
 pdfplumber==0.11.4
 pymupdf==1.25.3           # PyMuPDF — fallback PDF extractor
 
-# LLM — using Ollama locally, no API key needed
-# anthropic==0.34.0       # uncomment this if you switch to Claude API later
-httpx==0.28.1             # used for Ollama HTTP calls + GitHub enrichment
+# LLM — httpx handles both Ollama (local) and Groq (cloud) calls
+# Switch via LLM_PROVIDER env var. Groq free tier: https://console.groq.com
+httpx==0.28.1             # used for Ollama + Groq API calls + GitHub enrichment
 
 # API server
 fastapi==0.115.8

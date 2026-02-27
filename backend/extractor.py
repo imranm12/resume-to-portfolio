@@ -1,9 +1,13 @@
 """
 backend/extractor.py
 --------------------------
-Uses Ollama (local) to extract structured data from raw resume text.
-Returns a clean, typed ResumeData object ready for portfolio generation.
-No API key required — runs 100% locally.
+Extracts structured data from raw resume text using either:
+  - Ollama  (local, free, no API key) — for local development
+  - Groq    (cloud, free tier, fast)  — for production deployment
+
+Switch via .env:
+  LLM_PROVIDER=ollama   → uses Ollama (default)
+  LLM_PROVIDER=groq     → uses Groq API (set GROQ_API_KEY too)
 """
 
 import json
@@ -30,7 +34,7 @@ class ContactInfo:
 class Experience:
     company: str = ""
     role: str = ""
-    duration: str = ""          # e.g. "Jan 2022 – Present"
+    duration: str = ""
     location: str = ""
     highlights: list[str] = field(default_factory=list)
 
@@ -136,41 +140,57 @@ Resume text:
 
 class ResumeExtractor:
     """
-    Extracts structured resume data using a local Ollama model.
+    Extracts structured resume data using Ollama (local) or Groq (cloud).
+
+    Provider is selected via LLM_PROVIDER env var:
+        LLM_PROVIDER=ollama  →  local Ollama (default)
+        LLM_PROVIDER=groq    →  Groq cloud API (fast, free tier)
 
     Usage:
         extractor = ResumeExtractor()
         data = extractor.extract(raw_text)
     """
 
-    def __init__(
-        self,
-        model: str | None = None,
-        base_url: str | None = None,
-    ):
-        self.model = model or os.environ.get("OLLAMA_MODEL", "llama3.1")
-        self.base_url = base_url or os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+    def __init__(self):
+        self.provider = os.environ.get("LLM_PROVIDER", "ollama").lower()
+
+        if self.provider == "groq":
+            self.api_key = os.environ.get("GROQ_API_KEY", "")
+            self.model = os.environ.get("GROQ_MODEL", "llama-3.1-8b-instant")
+            if not self.api_key:
+                raise ValueError("GROQ_API_KEY is not set. Add it to your .env file.")
+        else:
+            # Default: Ollama
+            self.provider = "ollama"
+            self.model = os.environ.get("OLLAMA_MODEL", "llama3.1")
+            self.base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+
+        print(f"[LLM] Provider: {self.provider} | Model: {self.model}")
 
     def extract(self, resume_text: str) -> ResumeData:
         """Main entry point. Takes raw resume text, returns a ResumeData object."""
         if not resume_text.strip():
             raise ValueError("Resume text is empty — PDF extraction may have failed.")
 
-        raw_json = self._call_ollama(resume_text)
-        parsed = self._parse_response(raw_json)
-        return self._dict_to_resume_data(parsed)
-
-    def _call_ollama(self, resume_text: str) -> str:
-        """Send resume text to local Ollama and get back a JSON string."""
-
-        # Truncate very long resumes to avoid context limits
+        # Truncate very long resumes
         if len(resume_text) > 12000:
             resume_text = resume_text[:12000] + "\n[truncated...]"
 
+        if self.provider == "groq":
+            raw_json = self._call_groq(resume_text)
+        else:
+            raw_json = self._call_ollama(resume_text)
+
+        parsed = self._parse_response(raw_json)
+        return self._dict_to_resume_data(parsed)
+
+    # ─── Provider: Ollama ─────────────────────────────────────────────────────
+
+    def _call_ollama(self, resume_text: str) -> str:
+        """Send resume text to local Ollama and get back a JSON string."""
         prompt = EXTRACTION_SYSTEM_PROMPT + "\n\n" + EXTRACTION_USER_PROMPT.format(
             resume_text=resume_text
         )
-
         response = httpx.post(
             f"{self.base_url}/api/generate",
             json={
@@ -179,10 +199,36 @@ class ResumeExtractor:
                 "stream": False,
                 "format": "json",   # forces Ollama to output valid JSON
             },
-            timeout=500,            # local models can be slow, give them time
+            timeout=300,            # local models can be slow
         )
         response.raise_for_status()
         return response.json()["response"]
+
+    # ─── Provider: Groq ───────────────────────────────────────────────────────
+
+    def _call_groq(self, resume_text: str) -> str:
+        """Send resume text to Groq cloud API and get back a JSON string."""
+        response = httpx.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": self.model,
+                "messages": [
+                    {"role": "system", "content": EXTRACTION_SYSTEM_PROMPT},
+                    {"role": "user", "content": EXTRACTION_USER_PROMPT.format(resume_text=resume_text)},
+                ],
+                "response_format": {"type": "json_object"},  # forces valid JSON
+                "temperature": 0.1,   # low temp = more deterministic extraction
+            },
+            timeout=30,              # Groq is fast, 30s is plenty
+        )
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"]
+
+    # ─── Shared helpers ───────────────────────────────────────────────────────
 
     def _parse_response(self, raw: str) -> dict:
         """Parse LLM response into a dict, stripping markdown fences if present."""
