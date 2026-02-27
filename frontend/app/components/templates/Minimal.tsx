@@ -12,7 +12,7 @@ export default function MinimalTemplate({ data }: { data: any }) {
       {/* Navbar */}
       <nav style={{ borderBottom: "1px solid #2a2a2a", padding: "1rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, background: "#0f0f0f", zIndex: 50 }}>
         <span style={{ fontWeight: 600, fontSize: "1rem" }}>{contact.name}</span>
-        <div style={{ display: "flex", gap: "1.5rem" }}>
+        <div style={{ display: "flex", gap: "1.5rem" }} className="hide-mobile">
           {["About", "Experience", "Projects", "Education"].map(s => (
             <a key={s} href={`#${s.toLowerCase()}`} style={{ color: "#a1a1aa", fontSize: "0.85rem", textDecoration: "none" }}>{s}</a>
           ))}

@@ -61,29 +61,46 @@ export default function TemplatesPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen flex flex-col items-center px-6 pt-28 pb-16">
-
-        {/* Heading */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold tracking-tight mb-3">
-            Pick a template
-          </h1>
-          <p className="text-sm" style={{ color: "var(--muted)" }}>
-            You can always change this later.
-          </p>
-        </div>
+      <main style={{
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "6rem 1.5rem 4rem",
+}}>
+  {/* Heading */}
+  <div style={{ textAlign: "center", marginBottom: "2.5rem" }} className="animate-fade-up">
+    <h1 style={{ fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: "0.5rem" }}>
+      Pick a template
+    </h1>
+    <p style={{ color: "var(--muted)", fontSize: "0.875rem" }}>
+      You can always change this later.
+    </p>
+  </div>
 
         {/* Template grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl mb-10">
+        <div className="w-full max-w-4xl mb-10"
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem" }}>
           {TEMPLATES.map((t) => (
             <button
               key={t.id}
               onClick={() => setSelected(t.id)}
-              className="text-left rounded-2xl overflow-hidden transition-all"
+              className="text-left rounded-2xl overflow-hidden animate-fade-up"
               style={{
                 border: `2px solid ${selected === t.id ? t.accent : "var(--border)"}`,
                 background: "var(--card)",
-                boxShadow: selected === t.id ? `0 0 20px ${t.accent}33` : "none",
+                boxShadow: selected === t.id ? `0 0 24px ${t.accent}44` : "none",
+                transform: selected === t.id ? "translateY(-4px)" : "translateY(0)",
+                transition: "all 0.25s ease",
+                animationDelay: `${0.1 * (TEMPLATES.indexOf(t) + 1)}s`,
+                cursor: "pointer",
+              }}
+              onMouseEnter={e => {
+                if (selected !== t.id) e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={e => {
+                if (selected !== t.id) e.currentTarget.style.transform = "translateY(0)";
               }}
             >
               {/* Template preview mockup */}
@@ -127,21 +144,19 @@ export default function TemplatesPage() {
               </div>
 
               {/* Template info */}
-              <div className="px-4 py-3">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-semibold">{t.name}</span>
+              <div className="px-4 py-4">
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.35rem", gap: "0.5rem" }}>
+                  <span style={{ fontSize: "0.875rem", fontWeight: 600 }}>{t.name}</span>
                   {selected === t.id && (
-                    <span
-                      className="text-xs px-2 py-0.5 rounded-full font-medium"
-                      style={{ background: `${t.accent}22`, color: t.accent }}
-                    >
-                      Selected
+                    <span style={{
+                      fontSize: "0.7rem", padding: "0.2rem 0.6rem", borderRadius: 999,
+                      background: `${t.accent}22`, color: t.accent, whiteSpace: "nowrap", flexShrink: 0
+                    }}>
+                      ✓ Selected
                     </span>
                   )}
                 </div>
-                <p className="text-xs" style={{ color: "var(--muted)" }}>
-                  {t.description}
-                </p>
+                <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5 }}>{t.description}</p>
               </div>
             </button>
           ))}

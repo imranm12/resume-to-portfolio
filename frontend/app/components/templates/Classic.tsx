@@ -33,7 +33,7 @@ export default function ClassicTemplate({ data }: { data: any }) {
       </header>
 
       {/* Two-column layout */}
-      <div style={{ maxWidth: 860, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 2.5fr", gap: "2rem", padding: "2rem" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 200px), 1fr))", gap: "2rem", padding: "2rem" }} className="sm:grid-cols-[1fr_2.5fr]">
 
         {/* Left sidebar */}
         <aside style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>

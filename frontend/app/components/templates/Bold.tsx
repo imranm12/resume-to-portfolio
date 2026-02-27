@@ -67,7 +67,7 @@ export default function BoldTemplate({ data }: { data: any }) {
             <BoldTitle number="02">Experience</BoldTitle>
             <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
               {experience.map((exp: any, i: number) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "2rem", alignItems: "start" }}>
+                <div key={i} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))", gap: "2rem", alignItems: "start" }}>
                   <div>
                     <p style={{ color: "#f59e0b", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.25rem" }}>{exp.company}</p>
                     <p style={{ color: "#78716c", fontSize: "0.78rem" }}>{exp.duration}</p>
