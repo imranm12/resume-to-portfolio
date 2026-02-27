@@ -12,6 +12,7 @@ export default function ClassicTemplate({ data }: { data: any }) {
     <div style={{ background: "#0d1117", color: "#e6edf3", minHeight: "100vh", fontFamily: "'Georgia', serif" }}>
 
       {/* Back button — floating */}
+      {/* Uncomment if you want a back button on the portfolio page}
       <button
         onClick={() => router.push("/templates")}
         style={{
@@ -27,6 +28,7 @@ export default function ClassicTemplate({ data }: { data: any }) {
       >
         <ArrowLeft size={13} /> Templates
       </button>
+      */}
 
       {/* Header */}
       <header style={{ background: "linear-gradient(135deg, #059669, #10b981)", padding: "3.5rem 2rem 2.5rem" }}>

@@ -20,6 +20,7 @@ export default function MinimalTemplate({ data }: { data: any }) {
         backdropFilter: "blur(12px)", zIndex: 50,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          {/* Uncomment if you want a back button on the portfolio page}
           <button
             onClick={() => router.push("/templates")}
             style={{
@@ -34,6 +35,7 @@ export default function MinimalTemplate({ data }: { data: any }) {
           >
             <ArrowLeft size={13} /> Templates
           </button>
+          */}
           <span style={{ fontWeight: 600, fontSize: "0.95rem" }}>{contact.name}</span>
         </div>
         <div style={{ display: "flex", gap: "1.5rem" }}>

@@ -12,6 +12,7 @@ export default function BoldTemplate({ data }: { data: any }) {
     <div style={{ background: "#09090b", color: "#fafafa", minHeight: "100vh", fontFamily: "'system-ui', sans-serif" }}>
 
       {/* Back button */}
+      {/* Uncomment if you want a back button on the portfolio page}
       <button
         onClick={() => router.push("/templates")}
         style={{
@@ -27,6 +28,7 @@ export default function BoldTemplate({ data }: { data: any }) {
       >
         <ArrowLeft size={13} /> Templates
       </button>
+      */}
 
       {/* Hero */}
       <header style={{ padding: "6rem 2rem 4rem", borderBottom: "1px solid #18181b", position: "relative", overflow: "hidden" }}>
