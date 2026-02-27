@@ -35,7 +35,7 @@ export default function UploadForm() {
       formData.append("file", file);
       if (github) formData.append("github_username", github);
 
-      const res = await fetch("http://localhost:8000/api/parse-resume", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/parse-resume`, {
         method: "POST",
         body: formData,
       });
