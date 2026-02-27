@@ -8,8 +8,8 @@ This is the single entry point your Next.js API route will call.
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
-from .parser import extract_text_from_pdf
-from .extractor import ResumeExtractor, ResumeData
+from parser import extract_text_from_pdf
+from extractor import ResumeExtractor, ResumeData
 from github_enricher import GitHubEnricher, GitHubProfile
 
 
